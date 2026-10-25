@@ -1,0 +1,74 @@
+# Endpoint
+# /v1/graphql
+
+
+# Schema
+
+# Формально, в swagger, все поля опциональные, поэтому для примера сделал обязательными только id и коллекции
+
+""" Информация о клиенте """
+type Client {
+    id: ID!
+    name: String
+    age: Int
+    documents: [Document!]!
+    relatives: [Relative!]!
+}
+
+""" Информация о документе клиента """
+type Document {
+    id: ID!
+    type: String
+    number: String
+    issueDate: String
+    expiryDate: String
+}
+
+""" Информация о родственнике клиента """
+type Relative {
+    id: ID!
+    relationType: String
+    name: String
+    age: Int
+}
+
+type Query {
+    """ Получить информацию о клиенте по ID """
+    client(id: ID!): Client
+}
+
+
+# Queries
+
+# Получить информацию о клиенте по ID
+query ClientQuery($id: ID!) {
+    client(id: $id) {
+        name,
+        age
+    }
+}
+
+# Список документов клиента по ID
+query ClientDocumentsQuery($id: ID!) {
+    client(id: $id) {
+        documents {
+            id,
+            type,
+            number,
+            issueDate,
+            expiryDate
+        }
+    }
+}
+
+# Информация о родственниках клиента по ID
+query ClientRelativesQuery($id: ID!) {
+    client(id: $id) {
+        relatives {
+            id,
+            relationType,
+            name,
+            age
+        }
+    }
+}
